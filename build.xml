@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+
+<project name="wsf.toy" default="build.toy" basedir=".">
+
+    <!-- property definitions -->
+    <property name="src" location="src/java" />
+    <property name="build" location="classes" />
+    <property name="deploy" location="deploy" />
+    <property name="lib" location="lib/java" />
+    <property name="wsf.base" location="../WSF" /> 
+
+    <path id="classpath">
+        <pathelement path="${classpath}" />
+        <fileset dir="${lib}">
+            <include name="**/*.jar"/>
+        </fileset>
+        <pathelement location="${build}"/>
+    </path>
+		       
+    <target name="clean">
+        
+        <delete dir="${build}" quiet="true" />
+        <delete dir="${deploy}" quiet="true" />
+        <delete file="${lib}/wsf-interface.jar" quiet="true" />
+        
+    </target>
+    
+    <target name="prepare.interface"
+            description="create a jar file containing the required plugin interface">
+    
+        <ant dir="${wsf.base}" target="build.interface" inheritAll="false" />
+        
+        <copy file="${wsf.base}/deploy/wsf-interface.jar" todir="${lib}" />
+    
+    </target>
+    
+    <target name="build.toy" 
+            depends="prepare.interface" 
+            description="build the toy code">
+            
+        <mkdir dir="${build}" />
+        <mkdir dir="${deploy}" />
+		
+        <javac srcdir="${src}" 
+               destdir="${build}">
+            <classpath refid="classpath" />
+        </javac>
+        
+        <jar destfile="${deploy}/wsf-toy.jar"
+             basedir="${build}"
+             includes="org/**" />
+        
+    </target>
+
+</project>
