@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.apache.log4j.Logger;
 import org.gusdb.wsf.WsfPlugin;
+import org.gusdb.wsf.WsfServiceException;
 
 /**
  * @author Jerric
@@ -25,13 +25,11 @@ public class EchoPlugin extends WsfPlugin {
     public static final String COLUMN_MINUTE = "Minute";
     public static final String COLUMN_SECOND = "Second";
 
-    private static Logger logger = Logger.getLogger(EchoPlugin.class);
-
     /**
      * 
      */
     public EchoPlugin() {
-        super(logger);
+        super();
     }
 
     /*
@@ -40,7 +38,7 @@ public class EchoPlugin extends WsfPlugin {
      * @see org.gusdb.wsf.WsfPlugin#getRequiredParameters()
      */
     @Override
-    protected String[] getRequiredParameters() {
+    protected String[] getRequiredParameterNames() {
         return new String[0];
     }
 
@@ -58,10 +56,22 @@ public class EchoPlugin extends WsfPlugin {
     /*
      * (non-Javadoc)
      * 
+     * @see org.gusdb.wsf.WsfPlugin#validateParameters(java.util.Map)
+     */
+    @Override
+    protected void validateParameters(Map<String, String> params)
+            throws WsfServiceException {
+    // nothing in this case
+    }
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.gusdb.wsf.WsfPlugin#execute(java.util.Map, java.lang.String[])
      */
     @Override
-    protected String[][] execute(Map<String, String> params, String[] cols) {
+    protected String[][] execute(Map<String, String> params,
+            String[] orderedColumns) {
         // get parameters
         String zoneID = "GMT-5"; // default time zone
         if (params.containsKey(PARAM_TIME_ZONE))
@@ -70,19 +80,21 @@ public class EchoPlugin extends WsfPlugin {
         // create a time zone and a Calendar
         TimeZone timeZone = TimeZone.getTimeZone(zoneID);
         Calendar calendar = Calendar.getInstance(timeZone);
-        String[][] result = new String[1][cols.length];
-        for (int i = 0; i < cols.length; i++) {
-            if (cols[i].equalsIgnoreCase(COLUMN_YEAR)) {
+
+        // prepare the result
+        String[][] result = new String[1][orderedColumns.length];
+        for (int i = 0; i < orderedColumns.length; i++) {
+            if (orderedColumns[i].equalsIgnoreCase(COLUMN_YEAR)) {
                 result[0][i] = Integer.toString(calendar.get(Calendar.YEAR));
-            } else if (cols[i].equalsIgnoreCase(COLUMN_MONTH)) {
+            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_MONTH)) {
                 result[0][i] = Integer.toString(calendar.get(Calendar.MONTH) + 1);
-            } else if (cols[i].equalsIgnoreCase(COLUMN_DAY)) {
+            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_DAY)) {
                 result[0][i] = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-            } else if (cols[i].equalsIgnoreCase(COLUMN_HOUR)) {
+            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_HOUR)) {
                 result[0][i] = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY));
-            } else if (cols[i].equalsIgnoreCase(COLUMN_MINUTE)) {
+            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_MINUTE)) {
                 result[0][i] = Integer.toString(calendar.get(Calendar.MINUTE));
-            } else if (cols[i].equalsIgnoreCase(COLUMN_SECOND)) {
+            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_SECOND)) {
                 result[0][i] = Integer.toString(calendar.get(Calendar.SECOND));
             }
         }
