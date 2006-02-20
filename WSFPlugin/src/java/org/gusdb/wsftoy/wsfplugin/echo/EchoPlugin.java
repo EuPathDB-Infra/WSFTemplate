@@ -7,8 +7,8 @@ import java.util.Calendar;
 import java.util.Map;
 import java.util.TimeZone;
 
-import org.gusdb.wsf.WsfPlugin;
-import org.gusdb.wsf.WsfServiceException;
+import org.gusdb.wsf.plugin.WsfPlugin;
+import org.gusdb.wsf.plugin.WsfServiceException;
 
 /**
  * @author Jerric

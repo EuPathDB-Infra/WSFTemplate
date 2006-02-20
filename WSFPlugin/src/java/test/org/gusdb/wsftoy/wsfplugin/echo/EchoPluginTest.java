@@ -7,8 +7,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.log4j.Logger;
-import org.gusdb.wsf.WsfPlugin;
-import org.gusdb.wsf.WsfServiceException;
+import org.gusdb.wsf.plugin.WsfPlugin;
+import org.gusdb.wsf.plugin.WsfServiceException;
 import org.gusdb.wsftoy.wsfplugin.echo.EchoPlugin;
 
 /**
