@@ -47,35 +47,22 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="WSFToy-Installation" depends="WSFToy-Installation,
-                                              WSFToy/Plugin-Installation">
+  <target name="WSFToy-Installation" depends="WSF-Installation,
+                                              WSFToy/WSFPlugin-Installation">
 
     <ant target="defaultProjectInstall"/>
 
-    <copy file="${projectsDir}/PlasmoDBData/Load/config/plasmoResources.xml" 
-          tofile="${targetDir}/lib/xml/plasmoResources.xml"/>
-
-    <mkdir dir="${targetDir}/config"/>
-    <copy todir="${targetDir}/config">
-      <fileset dir="${projectsDir}/PlasmoDBData/Model/config"/>
-    </copy>
+    <move file="${targetDir}/lib/java/WSFToy-WSFPlugin.jar" todir="${targetDir}/wsf-lib/java" />
 
   </target>
 
 
  <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
-  <target name="PlasmoDBWebsite/Model-Installation">
+  <target name="WSFToy/WSFPlugin-Installation">
     <ant target="defaultComponentInstall">
-      <property name="project" value="PlasmoDBWebsite"/>
-      <property name="component" value="Model"/>
-    </ant>
-  </target>
-
-  <target name="PlasmoDBWebsite/View-Installation">
-    <ant target="defaultComponentInstall">
-      <property name="project" value="PlasmoDBWebsite"/>
-      <property name="component" value="View"/>
+      <property name="project" value="WSFToy"/>
+      <property name="component" value="WSFPlugin"/>
     </ant>
   </target>
 
@@ -83,23 +70,14 @@
   <!-- oooooooooooooooooooooooo  Web Installation  oooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="PlasmoDBWebsite-WebInstallation" depends="PlasmoDBWebsite-Installation,
-                                                          ApiCommonWebsite-WebInstallation,
-                                                          PlasmoDBWebsite/Site-WebInstallation">
- </target>
-
-  <target name="PlasmoDBWebsite/Site-WebInstallation">
-    <ant target="defaultWebComponentInstall">
-      <property name="project" value="PlasmoDBWebsite"/>
-      <property name="component" value="Site"/>
-    </ant>
+  <target name="WSFToy-WebInstallation" depends="WSFToy-Installation">
   </target>
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooo  Release  ooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="PlasmoDBWebsite-Release">
+  <target name="WSFToy-Release">
     
     <ant target="defaultProjectRelease">
       <property name="cvsroot" value=":ext:cvs.sanger.ac.uk:/cvsroot/GUS"/>
@@ -110,7 +88,7 @@
   <!-- oooooooooooooooooooooooooo  Distributable  ooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="PlasmoDBWebsite-Distributable">
+  <target name="WSFToy-Distributable">
 
     <copy todir="${targetDir}">
       <fileset dir="${projectsDir}" >
