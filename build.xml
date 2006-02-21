@@ -13,7 +13,7 @@
 
   <target name="WSF-WebInstallation">
     <ant antfile="../WSF/build.xml" target="WSF-WebInstallation">
-      <property name="project" value="ApiCommonWebsite"/>
+      <property name="project" value="WSF"/>
       <property name="version" value="??"/>
     </ant>
   </target>  
