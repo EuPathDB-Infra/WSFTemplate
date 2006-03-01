@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/java/WSF-Client.jar"/>
+	<classpathentry kind="lib" path="lib/java/axis.jar"/>
+	<classpathentry kind="lib" path="lib/java/jaxrpc.jar"/>
+	<classpathentry kind="lib" path="lib/java/log4j-1.2.13.jar"/>
+	<classpathentry kind="lib" path="lib/java/saaj.jar"/>
+	<classpathentry kind="lib" path="lib/java/wsdl4j-1.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/java/commons-logging-api.jar"/>
+	<classpathentry kind="lib" path="lib/java/commons-discovery-0.2.jar"/>
+	<classpathentry kind="output" path="classes"/>
+</classpath>

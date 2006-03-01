@@ -24,8 +24,16 @@ public class EchoPluginTest {
         EchoPlugin plugin = new EchoPlugin();
         plugin.setLogger(Logger.getLogger(plugin.getClass()));
         
+        // get time zone
+        if (args.length != 2 || !args[0].equalsIgnoreCase("-timezone")) {
+            System.err.println("Usage: wsftoyPlugin -timeZone <your_timezone>");
+            System.err.println("\t example: wsftoyPlugin -timeZone GMT-5");
+            System.exit(-1);
+        }
+        String timeZone = args[1].trim();
+        
         Map<String, String> params = new HashMap<String, String>();
-        params.put("TimeZone", "GMT+8");
+        params.put("TimeZone", timeZone);
         String[] orderedColumns = {"Hour", "Minute", "Second", "Month", "Day", "Year"};
         
         try {

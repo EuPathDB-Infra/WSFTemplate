@@ -48,7 +48,8 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
   <target name="WSFToy-Installation" depends="WSF-Installation,
-                                              WSFToy/WSFPlugin-Installation">
+                                              WSFToy/WSFPlugin-Installation,
+                                              WSFToy/WSFToyClient-Installation">
 
     <ant target="defaultProjectInstall"/>
 
@@ -70,6 +71,14 @@
 
     <delete file="${targetDir}/lib/java/WSF-Plugin.jar" />
     <move file="${targetDir}/wsf-lib/java/WSF-Client.jar" todir="${targetDir}/lib/java" />
+  </target>
+
+  <target name="WSFToy/WSFToyClient-Installation" depends="WSF-Installation">
+
+    <ant target="defaultComponentInstall">
+      <property name="project" value="WSFToy"/>
+      <property name="component" value="WSFToyClient"/>
+    </ant>
   </target>
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
