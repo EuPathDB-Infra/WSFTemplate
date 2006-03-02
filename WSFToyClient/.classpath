@@ -10,5 +10,7 @@
 	<classpathentry kind="lib" path="lib/java/wsdl4j-1.5.1.jar"/>
 	<classpathentry kind="lib" path="lib/java/commons-logging-api.jar"/>
 	<classpathentry kind="lib" path="lib/java/commons-discovery-0.2.jar"/>
+	<classpathentry kind="lib" path="lib/java/activation.jar"/>
+	<classpathentry kind="lib" path="lib/java/mail.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
