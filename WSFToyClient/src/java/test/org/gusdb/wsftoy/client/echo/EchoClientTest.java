@@ -106,10 +106,10 @@ public class EchoClientTest {
         for (String param : knownParams.keySet()) {
             boolean required = knownParams.get(param);
             System.err.print(" ");
-            if (required) System.err.print('[');
+            if (!required) System.err.print('[');
             System.err.print("-" + param);
-            System.err.print(" <value>");
-            if (required) System.err.print(']');
+            System.err.print(" <" + param + "_value>");
+            if (!required) System.err.print(']');
         }
         System.err.println();
         System.exit(-1);
