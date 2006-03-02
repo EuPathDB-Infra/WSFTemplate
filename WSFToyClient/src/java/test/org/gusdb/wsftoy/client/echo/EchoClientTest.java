@@ -32,7 +32,7 @@ public class EchoClientTest {
     static {
         knownParams = new HashMap<String, Boolean>();
         knownParams.put("url", true);
-        knownParams.put("timezone", true);
+        knownParams.put("echo", true);
     }
 
     /**
@@ -44,12 +44,11 @@ public class EchoClientTest {
         if (!validateParams(inParams, knownParams))
             printUsage(COMMAND, knownParams);
 
-        String timeZone = inParams.get("timezone");
+        String echo = inParams.get("echo");
         String url = inParams.get("url");
 
-        String[] params = { "TimeZone=" + timeZone };
-        String[] orderedColumns = { "Hour", "Minute", "Second", "Month", "Day",
-                "Year" };
+        String[] params = { "Echo=" + echo };
+        String[] orderedColumns = { "EchoString", "OsName", "OsVersion" };
 
         WsfServiceServiceLocator locator = new WsfServiceServiceLocator();
 

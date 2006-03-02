@@ -16,14 +16,11 @@ import org.gusdb.wsf.plugin.WsfServiceException;
  */
 public class EchoPlugin extends WsfPlugin {
 
-    public static final String PARAM_TIME_ZONE = "TimeZone";
+    public static final String PARAM_ECHO = "Echo";
 
-    public static final String COLUMN_YEAR = "Year";
-    public static final String COLUMN_MONTH = "Month";
-    public static final String COLUMN_DAY = "Day";
-    public static final String COLUMN_HOUR = "Hour";
-    public static final String COLUMN_MINUTE = "Minute";
-    public static final String COLUMN_SECOND = "Second";
+    public static final String COLUMN_OS_NAME = "OsName";
+    public static final String COLUMN_OS_VERSION = "OsVersion";
+    public static final String COLUMN_ECHO = "EchoString";
 
     /**
      * 
@@ -39,7 +36,7 @@ public class EchoPlugin extends WsfPlugin {
      */
     @Override
     protected String[] getRequiredParameterNames() {
-        return new String[0];
+        return new String[] { PARAM_ECHO };
     }
 
     /*
@@ -49,8 +46,7 @@ public class EchoPlugin extends WsfPlugin {
      */
     @Override
     protected String[] getColumns() {
-        return new String[] { COLUMN_YEAR, COLUMN_MONTH, COLUMN_DAY,
-                COLUMN_HOUR, COLUMN_MINUTE, COLUMN_SECOND };
+        return new String[] { COLUMN_OS_NAME, COLUMN_OS_VERSION, COLUMN_ECHO };
     }
 
     /*
@@ -72,30 +68,22 @@ public class EchoPlugin extends WsfPlugin {
     @Override
     protected String[][] execute(Map<String, String> params,
             String[] orderedColumns) {
-        // get parameters
-        String zoneID = "GMT-5"; // default time zone
-        if (params.containsKey(PARAM_TIME_ZONE))
-            zoneID = params.get(PARAM_TIME_ZONE);
+        // get parameter
+        String echo = params.get(PARAM_ECHO);
 
         // create a time zone and a Calendar
-        TimeZone timeZone = TimeZone.getTimeZone(zoneID);
-        Calendar calendar = Calendar.getInstance(timeZone);
+        String osName = System.getProperty("os.name");
+        String osVersion = System.getProperty("os.version");
 
         // prepare the result
         String[][] result = new String[1][orderedColumns.length];
         for (int i = 0; i < orderedColumns.length; i++) {
-            if (orderedColumns[i].equalsIgnoreCase(COLUMN_YEAR)) {
-                result[0][i] = Integer.toString(calendar.get(Calendar.YEAR));
-            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_MONTH)) {
-                result[0][i] = Integer.toString(calendar.get(Calendar.MONTH) + 1);
-            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_DAY)) {
-                result[0][i] = Integer.toString(calendar.get(Calendar.DAY_OF_MONTH));
-            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_HOUR)) {
-                result[0][i] = Integer.toString(calendar.get(Calendar.HOUR_OF_DAY));
-            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_MINUTE)) {
-                result[0][i] = Integer.toString(calendar.get(Calendar.MINUTE));
-            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_SECOND)) {
-                result[0][i] = Integer.toString(calendar.get(Calendar.SECOND));
+            if (orderedColumns[i].equalsIgnoreCase(COLUMN_OS_NAME)) {
+                result[0][i] = osName;
+            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_OS_VERSION)) {
+                result[0][i] = osVersion;
+            } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_ECHO)) {
+                result[0][i] = "You said: " + echo;
             }
         }
         return result;

@@ -12,7 +12,7 @@ import org.gusdb.wsf.plugin.WsfServiceException;
 import org.gusdb.wsftoy.wsfplugin.echo.EchoPlugin;
 
 /**
- * @author  Jerric
+ * @author Jerric
  * @created Feb 17, 2006
  */
 public class EchoPluginTest {
@@ -23,19 +23,20 @@ public class EchoPluginTest {
     public static void main(String[] args) {
         EchoPlugin plugin = new EchoPlugin();
         plugin.setLogger(Logger.getLogger(plugin.getClass()));
-        
+
         // get time zone
-        if (args.length != 2 || !args[0].equalsIgnoreCase("-timezone")) {
-            System.err.println("Usage: wsftoyPlugin -timeZone <your_timezone>");
-            System.err.println("\t example: wsftoyPlugin -timeZone GMT-5");
+        if (args.length != 2 || !args[0].equalsIgnoreCase("-echo")) {
+            System.err.println("Usage: wsftoyPlugin -echo <anything>");
+            System.err.println("\t example: wsftoyPlugin -echo \"Hello World!\"");
             System.exit(-1);
         }
-        String timeZone = args[1].trim();
-        
+        String echo = args[1].trim();
+
         Map<String, String> params = new HashMap<String, String>();
-        params.put("TimeZone", timeZone);
-        String[] orderedColumns = {"Hour", "Minute", "Second", "Month", "Day", "Year"};
-        
+        params.put(EchoPlugin.PARAM_ECHO, echo);
+        String[] orderedColumns = { EchoPlugin.COLUMN_ECHO,
+                EchoPlugin.COLUMN_OS_NAME, EchoPlugin.COLUMN_OS_VERSION };
+
         try {
             String[][] result = plugin.invoke(params, orderedColumns);
             // print out columns
@@ -46,6 +47,6 @@ public class EchoPluginTest {
             ex.printStackTrace();
             // System.err.println(ex);
         }
-        
+
     }
 }
