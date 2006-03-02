@@ -1,14 +1,6 @@
 #!/usr/bin/perl
 
-#------------------------------------------------------------------------
-# This module is used by WDK Model command line tools to set up command environment
-#
-# Thomas Gan
-#
-# $Revision: $ $Date: $ $Author: $
-#------------------------------------------------------------------------
-
-package WDK::Model::CommandHelper;
+package WSFToy::WSFToyClient::CommandHelper;
 
 use strict;
 use Carp;
