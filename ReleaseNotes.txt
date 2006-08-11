@@ -1,4 +1,11 @@
 ------------------------------------------------------------------------------
+ooooooooooooooooooooooooooo  WSFToy Version 1.12  ooooooooooooooooooooooooooooooo
+------------------------------------------------------------------------------
+
+Summary: (maybe out of sync, need to be updated in the next public release)
+
+
+------------------------------------------------------------------------------
 ooooooooooooooooooooooooooo  WSFToy Version 1.11  ooooooooooooooooooooooooooooooo
 ------------------------------------------------------------------------------
 
