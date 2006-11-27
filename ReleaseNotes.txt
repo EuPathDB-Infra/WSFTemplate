@@ -2,7 +2,9 @@
 ooooooooooooooooooooooooooo  WSFToy Version 1.12  ooooooooooooooooooooooooooooooo
 ------------------------------------------------------------------------------
 
-Summary: (maybe out of sync, need to be updated in the next public release)
+Summary: (out of sync, need to be updated in the next public release)
+         For up-to-date information please refer to the documentation of 
+         ApiCommonWebService.
 
 
 ------------------------------------------------------------------------------
