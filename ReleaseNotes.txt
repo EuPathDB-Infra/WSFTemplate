@@ -1,10 +1,17 @@
 ------------------------------------------------------------------------------
+ooooooooooooooooooooooooooo  WSFToy Version 1.13  ooooooooooooooooooooooooooooooo
+------------------------------------------------------------------------------
+
+Summary: * Minor bug fixes
+
+
+------------------------------------------------------------------------------
 ooooooooooooooooooooooooooo  WSFToy Version 1.12  ooooooooooooooooooooooooooooooo
 ------------------------------------------------------------------------------
 
-Summary: (out of sync, need to be updated in the next public release)
-         For up-to-date information please refer to the documentation of 
-         ApiCommonWebService.
+Summary: * Minor bug fixes; 
+         * the response now contain a "Result Message" section to include
+           customized information about the result.
 
 
 ------------------------------------------------------------------------------
