@@ -66,7 +66,7 @@ public class EchoPlugin extends WsfPlugin {
      * @see org.gusdb.wsf.WsfPlugin#execute(java.util.Map, java.lang.String[])
      */
     @Override
-    protected String[][] execute(Map<String, String> params,
+    protected String[][] execute(String invokeKey, Map<String, String> params,
             String[] orderedColumns) {
         // get parameter
         String echo = params.get(PARAM_ECHO);
