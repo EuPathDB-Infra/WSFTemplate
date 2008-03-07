@@ -1,13 +1,12 @@
 /**
  * 
  */
-package org.gusdb.wsftoy.wsfplugin.echo;
+package org.gusdb.wsftoy.plugin;
 
-import java.util.Calendar;
 import java.util.Map;
-import java.util.TimeZone;
 
 import org.gusdb.wsf.plugin.WsfPlugin;
+import org.gusdb.wsf.plugin.WsfResult;
 import org.gusdb.wsf.plugin.WsfServiceException;
 
 /**
@@ -16,7 +15,7 @@ import org.gusdb.wsf.plugin.WsfServiceException;
  */
 public class EchoPlugin extends WsfPlugin {
 
-    public static final String PARAM_ECHO = "Echo";
+    public static final String PARAM_ECHO = "message";
 
     public static final String COLUMN_OS_NAME = "OsName";
     public static final String COLUMN_OS_VERSION = "OsVersion";
@@ -66,7 +65,7 @@ public class EchoPlugin extends WsfPlugin {
      * @see org.gusdb.wsf.WsfPlugin#execute(java.util.Map, java.lang.String[])
      */
     @Override
-    protected String[][] execute(String invokeKey, Map<String, String> params,
+    protected WsfResult execute(String invokeKey, Map<String, String> params,
             String[] orderedColumns) {
         // get parameter
         String echo = params.get(PARAM_ECHO);
@@ -83,9 +82,13 @@ public class EchoPlugin extends WsfPlugin {
             } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_OS_VERSION)) {
                 result[0][i] = osVersion;
             } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_ECHO)) {
-                result[0][i] = "You said: " + echo;
+                result[0][i] = echo;
             }
         }
-        return result;
+        WsfResult wsfResult = new WsfResult();
+        wsfResult.setMessage(echo);
+        wsfResult.setSignal(1);
+        wsfResult.setResult(result);
+        return wsfResult;
     }
 }
