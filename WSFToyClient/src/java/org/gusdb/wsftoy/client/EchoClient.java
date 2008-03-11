@@ -58,7 +58,7 @@ public class EchoClient extends BaseCLI {
         WsfServiceServiceLocator locator = new WsfServiceServiceLocator();
         try {
             WsfService service = locator.getWsfService(url);
-            WsfResult wsfResult = service.invoke(
+            WsfResult wsfResult = service.invokeEx(
                     "org.gusdb.wsftoy.plugin.EchoPlugin", "EchoClient",
                     new String[] { "message=" + message }, columns);
             String[][] result = wsfResult.getResult();
