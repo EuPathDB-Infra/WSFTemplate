@@ -4,6 +4,8 @@
 <comment>The configuration file for MotifSearch WSF Plugin.</comment>
 
 <entry key="UseProjectId">yes</entry>
+
+<!-- Directory where to provide fasta files, used in the model, under motif_organim param internal values (one file per param value) -->
 <entry key="DataDir">/TemplateDB/data/motif</entry>
 
 <entry key="SourceIdRegex"><![CDATA[^>(?:\w*\|)*(\S+)]]></entry>
