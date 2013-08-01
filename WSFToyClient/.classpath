@@ -2,10 +2,11 @@
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/WSF Plugin"/>
 	<classpathentry kind="lib" path="/WSF Service/lib/java/axis-1.4.jar"/>
 	<classpathentry kind="lib" path="/WSF Service/lib/java/jaxrpc-1.4.jar"/>
-	<classpathentry kind="lib" path="/WSF Plugin/lib/java/commons-cli-1.1.jar" sourcepath="/WSF Plugin/C:/Develop/Java/Apache/maven-repo/commons-cli/commons-cli/1.1/commons-cli-1.1-sources.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/WSF Client"/>
+	<classpathentry kind="lib" path="/WSF Plugin/lib/java/commons-cli-1.2.jar"/>
+	<classpathentry kind="var" path="GUS_HOME/lib/java/WSF-Client.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/WSF Plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/WSF Service"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
