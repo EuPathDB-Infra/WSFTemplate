@@ -8,7 +8,7 @@ import java.util.Map;
 import org.gusdb.wsf.plugin.AbstractPlugin;
 import org.gusdb.wsf.plugin.PluginResponse;
 import org.gusdb.wsf.plugin.PluginRequest;
-import org.gusdb.wsf.plugin.WsfServiceException;
+import org.gusdb.wsf.plugin.WsfPluginException;
 
 /**
  * @author Jerric
@@ -40,7 +40,7 @@ public class EchoPlugin extends AbstractPlugin {
   }
 
   @Override
-  public void validateParameters(PluginRequest request) throws WsfServiceException {
+  public void validateParameters(PluginRequest request) throws WsfPluginException {
     // do nothing
   }
 
@@ -66,7 +66,7 @@ public class EchoPlugin extends AbstractPlugin {
    */
   @Override
   public void execute(PluginRequest request, PluginResponse response)
-      throws WsfServiceException {
+      throws WsfPluginException {
     Map<String, String> params = request.getParams();
     String[] orderedColumns = request.getOrderedColumns();
 

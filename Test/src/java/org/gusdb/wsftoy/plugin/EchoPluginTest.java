@@ -15,7 +15,7 @@ import java.util.Map;
 
 import org.gusdb.wsf.plugin.PluginResponse;
 import org.gusdb.wsf.plugin.PluginRequest;
-import org.gusdb.wsf.plugin.WsfServiceException;
+import org.gusdb.wsf.plugin.WsfPluginException;
 import org.junit.After;
 import org.junit.Test;
 
@@ -43,11 +43,11 @@ public class EchoPluginTest {
     }
 
     /**
-     * @throws WsfServiceException 
+     * @throws WsfPluginException 
      * 
      */
     @Test
-    public void testEcho() throws WsfServiceException {
+    public void testEcho() throws WsfPluginException {
         String message = "This is a whole new world";
         params.put(EchoPlugin.PARAM_ECHO, message);
         String[] columns = { COLUMN_OS_VERSION, COLUMN_OS_NAME, COLUMN_ECHO };
