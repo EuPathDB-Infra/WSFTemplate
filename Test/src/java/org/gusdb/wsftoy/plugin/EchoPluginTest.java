@@ -3,16 +3,20 @@
  */
 package org.gusdb.wsftoy.plugin;
 
+import static org.gusdb.wsftoy.plugin.EchoPlugin.COLUMN_ECHO;
+import static org.gusdb.wsftoy.plugin.EchoPlugin.COLUMN_OS_NAME;
+import static org.gusdb.wsftoy.plugin.EchoPlugin.COLUMN_OS_VERSION;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
 import java.util.HashMap;
 import java.util.Map;
 
-import org.gusdb.wsf.plugin.WsfResult;
+import org.gusdb.wsf.plugin.WsfRequest;
+import org.gusdb.wsf.plugin.WsfResponse;
 import org.gusdb.wsf.plugin.WsfServiceException;
 import org.junit.After;
 import org.junit.Test;
-
-import static org.gusdb.wsftoy.plugin.EchoPlugin.*;
-import static org.junit.Assert.*;
 
 /**
  * @author Jerric
@@ -42,7 +46,10 @@ public class EchoPluginTest {
         String message = "This is a whole new world";
         params.put(EchoPlugin.PARAM_ECHO, message);
         String[] columns = { COLUMN_OS_VERSION, COLUMN_OS_NAME, COLUMN_ECHO };
-        WsfResult wsfResult = plugin.invoke(message, params, columns);
+        WsfRequest request = new WsfRequest();
+        request.setParams(params);
+        request.setOrderedColumns(columns);
+        WsfResponse wsfResult = plugin.execute(request);
         String[][] result = wsfResult.getResult();
         assertEquals("result rows", 1, result.length);
         assertEquals("column-echo", message, result[0][2]);

@@ -2,7 +2,8 @@
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/WSF Test/lib/java/junit-4.4.jar"/>
 	<classpathentry kind="src" path="/WSFTemplate Plugin"/>
+	<classpathentry kind="lib" path="/WSF Plugin/lib/java/junit-4.10.jar"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/WSF Plugin"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
