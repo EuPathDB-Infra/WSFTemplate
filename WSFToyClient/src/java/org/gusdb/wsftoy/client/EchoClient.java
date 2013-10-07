@@ -39,7 +39,6 @@ public class EchoClient extends BaseCLI {
 
   private URL url;
   private String message;
-  }
 
   public EchoClient(String command) throws MalformedURLException {
     super(command, "Replay the given message on the remote service");
