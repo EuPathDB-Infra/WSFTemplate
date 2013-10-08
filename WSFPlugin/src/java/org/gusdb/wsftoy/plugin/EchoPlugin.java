@@ -6,9 +6,9 @@ package org.gusdb.wsftoy.plugin;
 import java.util.Map;
 
 import org.gusdb.wsf.plugin.AbstractPlugin;
-import org.gusdb.wsf.plugin.WsfRequest;
-import org.gusdb.wsf.plugin.WsfResponse;
-import org.gusdb.wsf.plugin.WsfServiceException;
+import org.gusdb.wsf.plugin.PluginResponse;
+import org.gusdb.wsf.plugin.PluginRequest;
+import org.gusdb.wsf.plugin.WsfPluginException;
 
 /**
  * @author Jerric
@@ -29,25 +29,30 @@ public class EchoPlugin extends AbstractPlugin {
     super();
   }
 
-  @Override
-  protected String[] defineContextKeys() {
-    return new String[0];
-  }
-
   /*
    * (non-Javadoc)
    * 
-   * @see org.gusdb.wsf.WsfPlugin#getRequiredParameters()
+   * @see org.gusdb.wsf.plugin.Plugin#getRequiredParameters()
    */
   @Override
   public String[] getRequiredParameterNames() {
     return new String[] { PARAM_ECHO };
   }
 
+  @Override
+  public void validateParameters(PluginRequest request) throws WsfPluginException {
+    // do nothing
+  }
+
+  @Override
+  protected String[] defineContextKeys() {
+    return null;
+  }
+
   /*
    * (non-Javadoc)
    * 
-   * @see org.gusdb.wsf.WsfPlugin#getColumns()
+   * @see org.gusdb.wsf.plugin.Plugin#getColumns()
    */
   @Override
   public String[] getColumns() {
@@ -57,21 +62,15 @@ public class EchoPlugin extends AbstractPlugin {
   /*
    * (non-Javadoc)
    * 
-   * @see org.gusdb.wsf.WsfPlugin#validateParameters(java.util.Map)
-   */
-  @Override
-  public void validateParameters(WsfRequest request) throws WsfServiceException {}
-
-  /*
-   * (non-Javadoc)
-   * 
    * @see org.gusdb.wsf.WsfPlugin#execute(java.util.Map, java.lang.String[])
    */
   @Override
-  public WsfResponse execute(WsfRequest request) {
+  public void execute(PluginRequest request, PluginResponse response)
+      throws WsfPluginException {
+    Map<String, String> params = request.getParams();
+    String[] orderedColumns = request.getOrderedColumns();
 
     // get parameter
-    Map<String, String> params = request.getParams();
     String echo = params.get(PARAM_ECHO);
 
     // create a time zone and a Calendar
@@ -79,21 +78,19 @@ public class EchoPlugin extends AbstractPlugin {
     String osVersion = System.getProperty("os.version");
 
     // prepare the result
-    String[] orderedColumns = request.getOrderedColumns();
-    String[][] result = new String[1][orderedColumns.length];
+    String[] row = new String[orderedColumns.length];
     for (int i = 0; i < orderedColumns.length; i++) {
       if (orderedColumns[i].equalsIgnoreCase(COLUMN_OS_NAME)) {
-        result[0][i] = osName;
+        row[i] = osName;
       } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_OS_VERSION)) {
-        result[0][i] = osVersion;
+        row[i] = osVersion;
       } else if (orderedColumns[i].equalsIgnoreCase(COLUMN_ECHO)) {
-        result[0][i] = echo;
+        row[i] = echo;
       }
     }
-    WsfResponse response = new WsfResponse();
+    response.addRow(row);
     response.setMessage(echo);
     response.setSignal(1);
-    response.setResult(result);
-    return response;
+    response.flush();
   }
 }

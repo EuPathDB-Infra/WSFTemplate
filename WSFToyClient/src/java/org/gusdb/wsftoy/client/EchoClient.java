@@ -11,11 +11,10 @@ import java.util.Map;
 
 import javax.xml.rpc.ServiceException;
 
-import org.apache.commons.cli.ParseException;
+import org.gusdb.wsf.client.WsfResponse;
 import org.gusdb.wsf.client.WsfService;
 import org.gusdb.wsf.client.WsfServiceServiceLocator;
-import org.gusdb.wsf.plugin.WsfRequest;
-import org.gusdb.wsf.plugin.WsfResponse;
+import org.gusdb.wsf.service.WsfRequest;
 import org.gusdb.wsf.util.BaseCLI;
 import org.gusdb.wsf.util.Formatter;
 
@@ -30,19 +29,12 @@ public class EchoClient extends BaseCLI {
 
   /**
    * @param args
-   * @throws ParseException
-   * @throws MalformedURLException
+   * @throws Exception
    */
-  public static void main(String[] args) throws MalformedURLException {
+  public static void main(String[] args) throws Exception {
     String command = System.getProperty("command", "echoClient");
     EchoClient client = new EchoClient(command);
-
-    try {
-      client.invoke(args);
-    } catch (Exception ex) {
-      client.printUsage();
-      System.exit(-1);
-    }
+    client.invoke(args);
   }
 
   private URL url;
@@ -55,22 +47,22 @@ public class EchoClient extends BaseCLI {
     message = (String) getOptionValue(ARG_MESSAGE);
   }
 
-  @Override
   public void execute() {
     Map<String, String> params = new LinkedHashMap<>();
-    params.put("message=", message);
+    params.put("message", message);
     String[] columns = { "OsName", "OsVersion", "EchoString" };
+    WsfRequest request = new WsfRequest();
+    request.setParams(params);
+    request.setOrderedColumns(columns);
+    request.setPluginClass("org.gusdb.wsftoy.plugin.EchoPlugin");
+    request.setProjectId("EchoClient");
     WsfServiceServiceLocator locator = new WsfServiceServiceLocator();
     try {
-      WsfRequest request = new WsfRequest();
-      request.setPluginClass("org.gusdb.wsftoy.plugin.EchoPlugin");
-      request.setParams(params);
-      request.setOrderedColumns(columns);
       WsfService service = locator.getWsfService(url);
-      WsfResponse wsfResult = service.invoke(request.toString());
-      String[][] result = wsfResult.getResult();
-      String message = wsfResult.getMessage();
-      int signal = wsfResult.getSignal();
+      WsfResponse response = service.invoke(request.toString());
+      String[][] result = response.getResult();
+      String message = response.getMessage();
+      int signal = response.getSignal();
 
       // print out result message
       System.out.println("Result message: \"" + message + "\"");
@@ -97,4 +89,5 @@ public class EchoClient extends BaseCLI {
     addSingleValueOption(ARG_MESSAGE, true, "no messages",
         "The message to be echoed by the remote service");
   }
+
 }
