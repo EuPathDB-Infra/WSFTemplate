@@ -5,5 +5,10 @@
 	<classpathentry kind="src" path="/WSFTemplate Plugin"/>
 	<classpathentry kind="lib" path="/WSF Plugin/lib/java/junit-4.10.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WSF Plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/WSF Service"/>
+	<classpathentry kind="lib" path="/WSF Plugin/lib/java/log4j-1.2.17.jar"/>
+	<classpathentry kind="lib" path="/WSF Service/lib/java/axis-1.4.jar" sourcepath="D:/Develop/Apache/apache-maven-repo/org/apache/axis/axis/1.4/axis-1.4-sources.jar"/>
+	<classpathentry kind="lib" path="/WSF Service/lib/java/commons-logging-1.1.1.jar"/>
+	<classpathentry kind="lib" path="/WSF Service/lib/java/commons-discovery-0.2.jar"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
