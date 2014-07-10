@@ -1,23 +1,11 @@
-<project name="WSFToy" default="Installation" basedir=".">
+<project name="WSFTemplate" default="Installation" basedir=".">
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo  Dependencies  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="WSF/Plugin-Installation">
-    <ant antfile="../WSF/build.xml" target="WSF/Plugin-Installation">
-      <property name="project" value="WSF"/>
-      <property name="version" value="WDK_version_1-14"/>
-    </ant>
-  </target>  
+  <import file="${projectsDir}/WSF/build.xml" />
 
-  <target name="WSF/Client-Installation">
-    <ant antfile="../WSF/build.xml" target="WSF/Client-Installation">
-      <property name="project" value="WSF"/>
-      <property name="version" value="WDK_version_1-14"/>
-    </ant>
-  </target>  
-    
   <target name="WSF-Checkout" unless="WSF.present"> 
     <ant target="defaultProjectCheckout" inheritAll="false">
       <property name="svnurl" value="https://www.cbil.upenn.edu/svn/gus/WSF"/>
@@ -29,7 +17,7 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <target name="WSFToy-ChildCheckout">
+  <target name="WSFTemplate-ChildCheckout">
     <available file="../WSF" type="dir"  property="WSF.present" />
     <antcall target="WSF-Checkout"/>
   </target>
@@ -37,7 +25,7 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
-  <target name="WSFToy-ChildUpdate">
+  <target name="WSFTemplate-ChildUpdate">
     <ant target="defaultProjectUpdate">
       <property name="project" value="WSF"/>
     </ant>
@@ -47,8 +35,8 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="WSFToy-Installation" depends="WSFToy/WSFPlugin-Installation,
-                                              WSFToy/WSFToyClient-Installation">
+  <target name="WSFTemplate-Installation" depends="WSFTemplate/WSFPlugin-Installation,
+                                              WSFTemplate/WSFTemplateClient-Installation">
 
     <ant target="defaultProjectInstall"/>
   </target>
@@ -56,24 +44,24 @@
 
  <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
-  <target name="WSFToy/WSFPlugin-Installation" depends="WSF/Plugin-Installation">
+  <target name="WSFTemplate/WSFPlugin-Installation" depends="WSF/Plugin-Installation">
 
     <ant target="defaultComponentInstall">
-      <property name="project" value="WSFToy"/>
+      <property name="project" value="WSFTemplate"/>
       <property name="component" value="WSFPlugin"/>
     </ant>
 
   </target>
 
-  <target name="WSFToy/WSFToyClient-Installation" depends="WSF/Client-Installation">
+  <target name="WSFTemplate/WSFTemplateClient-Installation" depends="WSF/Client-Installation">
 
     <!-- copy the WSF-Clisnt.jar, which will be used by IDE -->
     <copy  file="${targetDir}/lib/java/WSF-Client.jar"
-           toDir="../WSFToy/WSFToyClient/lib/java" />
+           toDir="../WSFTemplate/WSFTemplateClient/lib/java" />
            
     <ant target="defaultComponentInstall">
-      <property name="project" value="WSFToy"/>
-      <property name="component" value="WSFToyClient"/>
+      <property name="project" value="WSFTemplate"/>
+      <property name="component" value="WSFTemplateClient"/>
     </ant>
 
   </target>
@@ -82,7 +70,7 @@
   <!-- oooooooooooooooooooooooo  Web Installation  oooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="WSFToy-WebInstallation" depends="WSFToy-Installation">
+  <target name="WSFTemplate-WebInstallation" depends="WSFTemplate-Installation">
   
   </target>
 
@@ -90,7 +78,7 @@
   <!-- oooooooooooooooooooooooooooo  Release  ooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="WSFToy-Release">
+  <target name="WSFTemplate-Release">
     
     <ant target="defaultProjectRelease">
       <property name="cvsroot" value=":ext:cvs.sanger.ac.uk:/cvsroot/GUS"/>
@@ -101,7 +89,7 @@
   <!-- oooooooooooooooooooooooooo  Distributable  ooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="WSFToy-Distributable">
+  <target name="WSFTemplate-Distributable">
 
     <copy todir="${targetDir}">
       <fileset dir="${projectsDir}" >
