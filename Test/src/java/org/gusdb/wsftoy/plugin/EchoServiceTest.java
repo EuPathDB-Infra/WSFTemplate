@@ -14,10 +14,10 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
+import org.gusdb.wsf.common.WsfServiceException;
 import org.gusdb.wsf.service.WsfRequest;
 import org.gusdb.wsf.service.WsfResponse;
 import org.gusdb.wsf.service.WsfService;
-import org.gusdb.wsf.service.WsfServiceException;
 import org.junit.Test;
 
 /**
@@ -26,7 +26,7 @@ import org.junit.Test;
  */
 public class EchoServiceTest {
 
-  public static void main(String[] args) throws WsfServiceException {
+  public static void main(String[] args) throws ServiceModelException {
     EchoServiceTest tester = new EchoServiceTest();
     while (true) {
       tester.testEcho();
@@ -43,11 +43,11 @@ public class EchoServiceTest {
   }
 
   /**
-   * @throws WsfServiceException
+   * @throws ServiceModelException
    * 
    */
   @Test
-  public void testEcho() throws WsfServiceException {
+  public void testEcho() throws ServiceModelException {
     String message = "This is a whole new world - " + random.nextInt(Integer.MAX_VALUE);
     Map<String, String> params = new HashMap<>();
     params.put(EchoPlugin.PARAM_ECHO, message);

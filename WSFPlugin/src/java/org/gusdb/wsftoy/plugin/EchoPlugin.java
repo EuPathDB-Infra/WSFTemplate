@@ -6,10 +6,10 @@ package org.gusdb.wsftoy.plugin;
 import java.util.Map;
 import java.util.Random;
 
+import org.gusdb.wsf.common.WsfPluginException;
 import org.gusdb.wsf.plugin.AbstractPlugin;
 import org.gusdb.wsf.plugin.PluginResponse;
 import org.gusdb.wsf.plugin.PluginRequest;
-import org.gusdb.wsf.plugin.WsfPluginException;
 
 /**
  * @author Jerric
