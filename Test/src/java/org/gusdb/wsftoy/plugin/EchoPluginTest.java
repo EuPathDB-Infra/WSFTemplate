@@ -1,68 +1,58 @@
-/**
- * 
- */
 package org.gusdb.wsftoy.plugin;
 
-import static org.gusdb.wsftoy.plugin.EchoPlugin.COLUMN_ECHO;
-import static org.gusdb.wsftoy.plugin.EchoPlugin.COLUMN_OS_NAME;
-import static org.gusdb.wsftoy.plugin.EchoPlugin.COLUMN_OS_VERSION;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.gusdb.fgputil.FormatUtil.NL;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.Map;
+import java.net.URI;
 
-import org.gusdb.wsf.common.WsfPluginException;
-import org.gusdb.wsf.plugin.PluginResponse;
-import org.gusdb.wsf.plugin.PluginRequest;
-import org.junit.After;
+import org.gusdb.fgputil.BaseCLI;
+import org.gusdb.wsftoy.client.EchoClient;
+import org.gusdb.wsftoy.client.EchoResponse;
+import org.junit.Before;
 import org.junit.Test;
 
 /**
  * @author Jerric
  * @created Feb 17, 2006
  */
-public class EchoPluginTest {
+public class EchoPluginTest extends BaseCLI {
 
-    private final Map<String, String> params;
-    private final EchoPlugin plugin;
-    private final File storageDir;
+  public static final String ARG_URL = "url";
 
-    public EchoPluginTest() {
-        plugin = new EchoPlugin();
-        params = new HashMap<String, String>();
-        String temp = System.getProperty("java.io.tmpdir", "/tmp");
-        storageDir = new File(temp + "wsf-test/");
-        if (!storageDir.exists() || !storageDir.isDirectory()) storageDir.mkdirs();
-    }
+  private URI _serviceUri;
+  private String _message;
+  
+  public static void main(String[] args) throws Exception {
+    EchoPluginTest tester = new EchoPluginTest();
+    tester.invoke(args);
+  }
 
-    @After
-    public void createParams() {
-        params.clear();
-    }
+  public EchoPluginTest() {
+    super(System.getProperty("command", "echoClient"), "Replay the given message on the remote service");
+  }
 
-    /**
-     * @throws PluginModelException 
-     * 
-     */
-    @Test
-    public void testEcho() throws PluginModelException {
-        String message = "This is a whole new world";
-        params.put(EchoPlugin.PARAM_ECHO, message);
-        String[] columns = { COLUMN_OS_VERSION, COLUMN_OS_NAME, COLUMN_ECHO };
-        PluginRequest request = new PluginRequest();
-        request.setParams(params);
-        request.setOrderedColumns(columns);
-        
-        PluginResponse response = new PluginResponse(storageDir, 1);
-        plugin.execute(request, response);
-        String[][] result = response.getPage(0);
-        assertEquals("result rows", 1, result.length);
-        assertEquals("column-echo", message, result[0][2]);
-        assertEquals("result-message", message, response.getMessage());
-        assertEquals("signal", 1, response.getSignal());
-        assertTrue("os-name", result[0][0].trim().length() > 0);
-        assertTrue("os-version", result[0][1].trim().length() > 0);
-    }
+  @Override
+  protected void declareOptions() {
+    addSingleValueOption(ARG_URL, true, null, "The url of the remote service");
+    addSingleValueOption(EchoClient.ARG_MESSAGE, true, "no messages", "The message to be echoed by the remote service");
+  }
+
+  @Override
+  public void execute() throws Exception {
+    _serviceUri = new URI((String)getOptionValue(ARG_URL));
+    _message = (String) getOptionValue(EchoClient.ARG_MESSAGE);
+    testEcho();
+  }
+
+  @Before
+  public void setUpTest() {
+    _serviceUri = null; // use local during unit testing
+    _message = "This is a whole new world";
+  }
+
+  @Test
+  public void testEcho() throws Exception {
+    EchoClient client = new EchoClient();
+    EchoResponse response = client.callEcho(_serviceUri, _message);
+    System.out.println("Ran EchoClient and received:" + NL + response.getOutputString());
+  }
 }

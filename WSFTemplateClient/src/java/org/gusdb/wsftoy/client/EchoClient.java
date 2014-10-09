@@ -1,102 +1,62 @@
-/**
- * 
- */
 package org.gusdb.wsftoy.client;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.RemoteException;
+import java.net.URI;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
-import java.util.Random;
+import java.util.Map.Entry;
 
-import javax.xml.rpc.ServiceException;
-
-import org.gusdb.wsf.client.WsfResponse;
-import org.gusdb.wsf.client.WsfService;
-import org.gusdb.wsf.client.WsfServiceServiceLocator;
-import org.gusdb.wsf.service.WsfRequest;
-import org.gusdb.wsf.util.BaseCLI;
-import org.gusdb.wsf.util.Formatter;
+import org.gusdb.fgputil.MapBuilder;
+import org.gusdb.wsf.client.ClientModelException;
+import org.gusdb.wsf.client.ClientRequest;
+import org.gusdb.wsf.client.ClientUserException;
+import org.gusdb.wsf.client.WsfClient;
+import org.gusdb.wsf.client.WsfClientFactory;
+import org.gusdb.wsf.client.WsfClientFactoryImpl;
 import org.gusdb.wsftoy.plugin.EchoPlugin;
+import org.json.JSONObject;
 
 /**
  * @author Jerric
  * @created Feb 17, 2006
  */
-public class EchoClient extends BaseCLI {
+public class EchoClient {
 
-  public static final String ARG_URL = "url";
   public static final String ARG_MESSAGE = "message";
 
-  /**
-   * @param args
-   * @throws Exception
-   */
-  public static void main(String[] args) throws Exception {
-    String command = System.getProperty("command", "echoClient");
-    EchoClient client = new EchoClient(command);
-    client.invoke(args);
+  public static final String[] ORDERED_COLUMNS = {
+    EchoPlugin.COLUMN_OS_NAME, EchoPlugin.COLUMN_OS_VERSION,
+    EchoPlugin.COLUMN_ECHO, EchoPlugin.COLUMN_EXTRA
+  };
+
+  private WsfClientFactory _clientFactory = new WsfClientFactoryImpl();
+
+  public EchoResponse callEcho(URI serviceURI, String message) throws ClientModelException, ClientUserException {
+    EchoResponse results = new EchoResponse();
+    ClientRequest request = new ClientRequest(buildRequestJson(message));
+    WsfClient client = (serviceURI == null ?
+        _clientFactory.newClient(results) : _clientFactory.newClient(results, serviceURI));
+    client.invoke(request);
+    return results;
   }
 
-  public EchoClient(String command) throws MalformedURLException {
-    super((command != null) ? command : "echoClientTest", "Replay the given message on the remote service");
-  }
-
-  public void execute() throws MalformedURLException {
-    Random random = new Random();
-    URL url = new URL((String) getOptionValue(ARG_URL));
-    String message = (String) getOptionValue(ARG_MESSAGE);
-    while (true) {
-      callEcho(url, message + "-" + random.nextInt(Integer.MAX_VALUE));
-      break;
+  private String buildRequestJson(String message) {
+    JSONObject json = new JSONObject();
+    json.put(ClientRequest.PLUGIN_KEY, EchoPlugin.class.getName());
+    json.put(ClientRequest.PROJECT_KEY, "EchoClient");
+    for (String column : ORDERED_COLUMNS) {
+      json.append(ClientRequest.COLUMNS_ARRAY_KEY, column);
     }
+    json.put(ClientRequest.PARAMETER_MAP_KEY,
+        getJsonFromMap(new MapBuilder<String,String>("message", message).toMap()));
+    json.put(ClientRequest.CONTEXT_MAP_KEY, getJsonFromMap(new HashMap<String, String>()));
+    return json.toString();
   }
 
-  public void callEcho(URL url, String message) {
-    Map<String, String> params = new LinkedHashMap<>();
-    params.put("message", message);
-    String[] columns = { "OsName", "OsVersion", "EchoString", "Extra" };
-    WsfRequest request = new WsfRequest();
-    request.setParams(params);
-    request.setOrderedColumns(columns);
-    request.setPluginClass(EchoPlugin.class.getName());
-    request.setProjectId("EchoClient");
-    request.setContext(new HashMap<String, String>());
-    WsfServiceServiceLocator locator = new WsfServiceServiceLocator();
-    try {
-      WsfService service = locator.getWsfService(url);
-      WsfResponse response = service.invoke(request.toString());
-      String[][] result = response.getResult();
-      String resultMessage = response.getMessage();
-      int signal = response.getSignal();
-
-      // print out result message
-      System.out.println("Result message: \"" + resultMessage + "\"");
-      System.out.println("Signal: \"" + signal + "\"");
-
-      // print out columns
-      System.out.println(Formatter.printArray(columns));
-      System.out.println(Formatter.printArray(result));
+  private JSONObject getJsonFromMap(Map<String, String> map) {
+    JSONObject json = new JSONObject();
+    for (Entry<String,String> entry : map.entrySet()) {
+      json.put(entry.getKey(), entry.getValue());
     }
-    catch (ServiceException ex) {
-      ex.printStackTrace();
-    }
-    catch (RemoteException ex) {
-      ex.printStackTrace();
-    }
+    return json;
   }
-
-  /*
-   * (non-Javadoc)
-   * 
-   * @see org.gusdb.wsf.plugin.BaseCLI#declareOptions()
-   */
-  @Override
-  protected void declareOptions() {
-    addSingleValueOption(ARG_URL, true, null, "The url of the remote service");
-    addSingleValueOption(ARG_MESSAGE, true, "no messages", "The message to be echoed by the remote service");
-  }
-
 }

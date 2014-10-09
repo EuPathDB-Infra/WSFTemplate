@@ -2,22 +2,9 @@
 <classpath>
 	<classpathentry kind="src" path="src/java"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/axis-1.4.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/jaxrpc-1.4.jar"/>
-	<classpathentry kind="lib" path="/WSF Plugin/lib/java/commons-cli-1.2.jar"/>
-	<classpathentry kind="var" path="GUS_HOME/lib/java/WSF-Client.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/WSF Service"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/commons-logging-1.1.1.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/commons-discovery-0.2.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/wsdl4j-1.5.1.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/xml-apis-2.9.0.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/activation-1.0.2.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/javamail-1.4.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/saaj-1.4.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/xalan-2.7.1.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/xercesImpl-2.9.1.jar"/>
-	<classpathentry kind="lib" path="/WSF Service/lib/java/xmlsec-1.3.0.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/WSF Plugin"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/fgputil-util"/>
+	<classpathentry combineaccessrules="false" kind="src" path="/wsf-client"/>
+	<classpathentry kind="var" path="M2_REPO/org/json/json/20140107/json-20140107.jar"/>
 	<classpathentry combineaccessrules="false" kind="src" path="/WSFTemplate Plugin"/>
 	<classpathentry kind="output" path="classes"/>
 </classpath>
