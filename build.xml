@@ -17,6 +17,7 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo    Checkout    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
   <target name="WSFTemplate-ChildCheckout">
     <available file="../WSF" type="dir"  property="WSF.present" />
     <antcall target="WSF-Checkout"/>
@@ -25,6 +26,7 @@
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooo    Update    oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
+
   <target name="WSFTemplate-ChildUpdate">
     <ant target="defaultProjectUpdate">
       <property name="project" value="WSF"/>
@@ -35,35 +37,33 @@
   <!-- oooooooooooooooooooooooooo  Installation  oooooooooooooooooooooooooo -->
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
 
-  <target name="WSFTemplate-Installation" depends="WSFTemplate/WSFPlugin-Installation,
-                                              WSFTemplate/WSFTemplateClient-Installation">
-
+  <target name="WSFTemplate-Installation" depends="WSFTemplate-MavenInstallation,
+                                                   WSFTemplate/WSFPlugin-Installation,
+                                                   WSFTemplate/WSFTemplateClient-Installation">
     <ant target="defaultProjectInstall"/>
   </target>
 
+  <target name="WSFTemplate-MavenInstallation">
+    <ant target="mavenBuildProject">
+      <property name="project" value="WSFTemplate"/>
+    </ant>
+    <property name="alreadyBuilt" value="true"/>
+  </target>
 
  <!-- ooooooooooooooooooooooo  Install Components  ooooooooooooooooooooooo -->
 
   <target name="WSFTemplate/WSFPlugin-Installation" depends="WSF/Plugin-Installation">
-
     <ant target="defaultComponentInstall">
       <property name="project" value="WSFTemplate"/>
       <property name="component" value="WSFPlugin"/>
     </ant>
-
   </target>
 
   <target name="WSFTemplate/WSFTemplateClient-Installation" depends="WSF/Client-Installation">
-
-    <!-- copy the WSF-Clisnt.jar, which will be used by IDE -->
-    <copy  file="${targetDir}/lib/java/WSF-Client.jar"
-           toDir="../WSFTemplate/WSFTemplateClient/lib/java" />
-           
     <ant target="defaultComponentInstall">
       <property name="project" value="WSFTemplate"/>
       <property name="component" value="WSFTemplateClient"/>
     </ant>
-
   </target>
 
   <!-- oooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooooo -->
