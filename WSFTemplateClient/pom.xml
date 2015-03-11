@@ -16,7 +16,12 @@
 
     <dependency>
       <groupId>org.gusdb</groupId>
-      <artifactId>wsf-common</artifactId>
+      <artifactId>wsf-client</artifactId>
+    </dependency>
+
+    <dependency>
+      <groupId>org.gusdb</groupId>
+      <artifactId>wsf-template-plugin</artifactId>
     </dependency>
 
     <dependency>
