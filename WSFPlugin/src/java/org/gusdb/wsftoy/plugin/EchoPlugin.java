@@ -1,13 +1,15 @@
+/**
+ * 
+ */
 package org.gusdb.wsftoy.plugin;
 
 import java.util.Map;
 import java.util.Random;
 
 import org.gusdb.wsf.plugin.AbstractPlugin;
-import org.gusdb.wsf.plugin.PluginModelException;
-import org.gusdb.wsf.plugin.PluginRequest;
 import org.gusdb.wsf.plugin.PluginResponse;
-import org.gusdb.wsf.plugin.PluginUserException;
+import org.gusdb.wsf.plugin.PluginRequest;
+import org.gusdb.wsf.plugin.WsfPluginException;
 
 /**
  * @author Jerric
@@ -24,29 +26,51 @@ public class EchoPlugin extends AbstractPlugin {
 
   private final Random random;
 
+  /**
+     * 
+     */
   public EchoPlugin() {
     super();
     random = new Random();
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.gusdb.wsf.plugin.Plugin#getRequiredParameters()
+   */
   @Override
   public String[] getRequiredParameterNames() {
     return new String[] { PARAM_ECHO };
   }
 
   @Override
-  public void validateParameters(PluginRequest request) throws PluginModelException, PluginUserException {
+  public void validateParameters(PluginRequest request) throws WsfPluginException {
     // do nothing
   }
 
+  @Override
+  protected String[] defineContextKeys() {
+    return null;
+  }
+
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.gusdb.wsf.plugin.Plugin#getColumns()
+   */
   @Override
   public String[] getColumns() {
     return new String[] { COLUMN_OS_NAME, COLUMN_OS_VERSION, COLUMN_ECHO, COLUMN_EXTRA };
   }
 
+  /*
+   * (non-Javadoc)
+   * 
+   * @see org.gusdb.wsf.WsfPlugin#execute(java.util.Map, java.lang.String[])
+   */
   @Override
-  protected int execute(PluginRequest request, PluginResponse response)
-      throws PluginModelException, PluginUserException {
+  public void execute(PluginRequest request, PluginResponse response) throws WsfPluginException {
     Map<String, String> params = request.getParams();
     String[] orderedColumns = request.getOrderedColumns();
 
@@ -58,7 +82,8 @@ public class EchoPlugin extends AbstractPlugin {
     String osVersion = System.getProperty("os.version");
 
     // prepare the result
-    int count = random.nextInt(100);// determine # of rows
+    int count = random.nextInt(1000) * 500;// determine # of rows
+    //String[] row = new String[orderedColumns.length];
     for (int r = 0; r < count; r++) {
       String[] row = new String[orderedColumns.length];
       for (int i = 0; i < orderedColumns.length; i++) {
@@ -78,6 +103,7 @@ public class EchoPlugin extends AbstractPlugin {
       response.addRow(row);
     }
     response.setMessage(echo);
-    return 1;
+    response.setSignal(1);
+    response.flush();
   }
 }
